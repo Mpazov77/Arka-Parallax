@@ -3,13 +3,13 @@
         width: 100%; height: 70vh; perspective: 1000px; overflow: hidden; 
         border-radius: 1.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); 
         position: relative; cursor: pointer; 
-        background: transparent !important; /* FONDO 100% TRANSPARENTE */
+        background: transparent !important;
     }
     .parallax-layer { 
         position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
         transition: transform 0.1s ease-out; will-change: transform; 
         background-size: contain; background-repeat: no-repeat; background-position: center;
-        filter: brightness(1.5) contrast(1.3) drop-shadow(0 0 20px rgba(255, 0, 255, 0.8)); /* BRILLO NEÓN */
+        filter: brightness(1.5) contrast(1.3) drop-shadow(0 0 20px rgba(255, 0, 255, 0.8));
     }
     .watermark {
         position: absolute; bottom: 1rem; right: 1rem; 
@@ -21,7 +21,6 @@
     @keyframes glow { from { box-shadow: 0 0 5px #ff69b4; } to { box-shadow: 0 0 15px #ff69b4; } }
 </style>
 
-<!-- GALERÍA CON FONDO TRANSPARENTE -->
 <div class="grid md:grid-cols-3 gap-6 mb-10">
 
     <!-- 1. ARKA -->
@@ -52,3 +51,28 @@
     </div>
 
 </div>
+
+<script>
+    const containers = ['arka-logo', 'client1', 'client2'];
+    containers.forEach(id => {
+        const container = document.getElementById(id);
+        const layers = container.querySelectorAll('.parallax-layer');
+        const bg = layers[0], fg = layers[1];
+
+        container.addEventListener('mousemove', e => {
+            const rect = container.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+            bg.style.transform = `translate3d(${x * -20}px, ${y * -20}px, 0) scale(1.15)`;
+            fg.style.transform = `translate3d(${x * -80}px, ${y * -80}px, 0)`;
+            container.style.transform = `rotateY(${x * 10}deg) rotateX(${y * -10}deg)`;
+        });
+
+        container.addEventListener('mouseleave', () => {
+            bg.style.transform = 'translate3d(0,0,0) scale(1.15)';
+            fg.style.transform = 'translate3d(0,0,0)';
+            container.style.transform = 'rotateY(0) rotateX(0)';
+        });
+    });
+</script>
