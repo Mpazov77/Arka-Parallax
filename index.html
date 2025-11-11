@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARKA Studio Lab | Parallax Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .parallax-container { width: 100%; height: 70vh; perspective: 1000px; overflow: hidden; border-radius: 1.5rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4); position: relative; cursor: pointer; }
+        .parallax-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transition: transform 0.1s ease-out; will-change: transform; background-size: contain; background-repeat: no-repeat; background-position: center; }
+        
+        /* MARCA DE AGUA INVISIBLE PERO POTENTE */
+        .watermark {
+            position: absolute; bottom: 1rem; right: 1rem; 
+            background: rgba(0,0,0,0.6); color: #fff; padding: 0.5rem 1rem; 
+            border-radius: 999px; font-weight: bold; font-size: 0.875rem;
+            backdrop-filter: blur(4px); z-index: 50;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-purple-900 to-black min-h-screen p-6">
+
+    <div class="max-w-5xl mx-auto">
+
+        <!-- HEADER ARKA -->
+        <div class="text-center mb-10">
+            <h1 class="text-5xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                ARKA Studio Lab
+            </h1>
+            <p class="text-purple-300 mt-2">Efectos Parallax Premium para Marcas que Rompen</p>
+        </div>
+
+        <!-- GALERÍA DE 3 PARALLAX (LOGO + 2 EJEMPLOS) -->
+        <div class="grid md:grid-cols-3 gap-6 mb-10">
+
+            <!-- 1. LOGO ARKA -->
+            <div class="relative">
+                <div id="arka-logo" class="parallax-container bg-black/50">
+                    <div class="parallax-layer" style="background-image: url('{{uploaded:arka-logo.png}}'); transform: scale(1.1);"></div>
+                    <div class="parallax-layer" style="background-image: url('{{uploaded:arka-logo.png}}');"></div>
+                </div>
+                <div class="watermark">ARKA ©</div>
+            </div>
+
+            <!-- 2. EJEMPLO CLIENTE 1 -->
+            <div class="relative">
+                <div id="client1" class="parallax-container bg-black/50">
+                    <div class="parallax-layer" style="background-image: url('{{uploaded:cliente1.jpg}}'); transform: scale(1.1);"></div>
+                    <div class="parallax-layer" style="background-image: url('{{uploaded:cliente1.jpg}}');"></div>
+                </div>
+                <div class="watermark">ARKA ©</div>
+            </div>
+
+            <!-- 3. EJEMPLO CLIENTE 2 -->
+            <div class="relative">
+                <div id="client2" class="parallax-container bg-black/50">
+                    <div class="parallax-layer" style="background-image: url('{{uploaded:cliente2.jpg}}'); transform: scale(1.1);"></div>
+                    <div class="parallax-layer" style="background-image: url('{{uploaded:cliente2.jpg}}');"></div>
+                </div>
+                <div class="watermark">ARKA ©</div>
+            </div>
+
+        </div>
+
+        <!-- CTA FINAL -->
+        <div class="text-center">
+            <h2 class="text-3xl font-bold text-white mb-4">¿Quieres el tuyo?</h2>
+            <p class="text-purple-300 mb-6">Entrega en 24h • HTML + Video • L.1,200</p>
+            
+            <a href="https://wa.me/504XXXXXXXX?text=¡Hola%20ARKA!%20Quiero%20mi%20parallax%20personalizado" 
+               class="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-xl py-4 px-10 rounded-full hover:scale-110 transition transform">
+                🚀 ¡HABLAME POR WHATSAPP!
+            </a>
+            
+            <p class="text-gray-400 text-sm mt-6">O escribe a: <strong>arka@studio.hn</strong></p>
+        </div>
+
+    </div>
+
+    <script>
+        const containers = ['arka-logo', 'client1', 'client2'];
+        containers.forEach(id => {
+            const container = document.getElementById(id);
+            const layers = container.querySelectorAll('.parallax-layer');
+            const bg = layers[0], fg = layers[1];
+
+            container.addEventListener('mousemove', e => {
+                const rect = container.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+                bg.style.transform = `translate3d(${x * -15}px, ${y * -15}px, 0) scale(1.1)`;
+                fg.style.transform = `translate3d(${x * -60}px, ${y * -60}px, 0)`;
+                container.style.transform = `rotateY(${x * 8}deg) rotateX(${y * -8}deg)`;
+            });
+
+            container.addEventListener('mouseleave', () => {
+                bg.style.transform = 'translate3d(0,0,0) scale(1.1)';
+                fg.style.transform = 'translate3d(0,0,0)';
+                container.style.transform = 'rotateY(0) rotateX(0)';
+            });
+        });
+    </script>
+</body>
+</html>
